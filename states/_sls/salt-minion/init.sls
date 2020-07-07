@@ -1,5 +1,5 @@
 {% set SUBJ = 'salt-py3-repo' %}
-{% set STATE_pkg = pkg_{{ sls }}_{{ SUBJ }} %}
+{% set STATE_pkg = pkg-{{ sls }}-{{ SUBJ }} %}
 {{ STATE_pkg }}:
   pkg.installed:
     - sources:
@@ -10,7 +10,7 @@
       {% endif %}
 
 {% set SUBJ = 'salt-minion' %}
-{% set STATE_pkg = pkg_{{ sls }}_{{ SUBJ }} %}
+{% set STATE_pkg = pkg-{{ sls }}-{{ SUBJ }} %}
 {{ STATE_pkg }}:
   pkg.installed:
     - require:
@@ -19,7 +19,7 @@
       - {{ SUBJ }}
 
 {% set SUBJ = '/etc/salt/minion_id' %}
-{% set STATE_file = file_{{ sls }}_{{ SUBJ }} %}
+{% set STATE_file = file-{{ sls }}-{{ SUBJ }} %}
 {{ STATE_file }}:
   file.managed:
     - require:
@@ -29,7 +29,7 @@
       - {{ grains.id }}
 
 {% set SUBJ = 'salt-minion' %}
-{% set STATE_service = service_{{ sls }}_{{ SUBJ }} %}
+{% set STATE_service = service-{{ sls }}-{{ SUBJ }} %}
 {{ STATE_service }}:
   service.running:
     - require:
@@ -41,7 +41,7 @@
     - restart: true
 
 {% set SUBJ = '/etc/systemd/system/salt-minion.service.d/override.conf' %}
-{% set STATE_file = file_{{ sls }}_{{ SUBJ }} %}
+{% set STATE_file = file-{{ sls }}-{{ SUBJ }} %}
 {{ STATE_file }}:
   file.managed:
     - name: {{ SUBJ }}
@@ -49,7 +49,7 @@
     - makedirs: true
 
 {% set SUBJ = 'systemctl daemon-reload' %}
-{% set STATE_cmd = cmd_{{ sls }}_{{ SUBJ }} %}
+{% set STATE_cmd = cmd-{{ sls }}-{{ SUBJ }} %}
 {{ STATE_cmd }}:
   cmd.run:
     - onchanges:
