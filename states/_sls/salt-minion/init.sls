@@ -1,6 +1,6 @@
 {% set SUBJ = 'salt-py3-repo' %}
-{% set STATEpkg = pkg-{{ sls }}-{{ SUBJ }} %}
-{{ STATEpkg }}:
+{% set STATE_pkg_repo = sls ~ '_' ~ SUBJ %}
+{{ STATE_pkg_repo }}:
   pkg.installed:
     - sources:
       {% if grains['osmajorrelease'] == '7' %}
@@ -10,48 +10,50 @@
       {% endif %}
 
 {% set SUBJ = 'salt-minion' %}
-{% set STATEpkg = pkg-{{ sls }}-{{ SUBJ }} %}
-{{ STATEpkg }}:
+{% set STATE_pkg_minion = sls ~ '_' ~ SUBJ %}
+{{ STATE_pkg_minion }}:
   pkg.installed:
     - require:
-      - pkg: {{ STATEpkg }}
+      - pkg: {{ STATE_pkg_repo }}
     - pkgs:
       - {{ SUBJ }}
 
 {% set SUBJ = '/etc/salt/minion_id' %}
-{% set STATEfile = file-{{ sls }}-{{ SUBJ }} %}
-{{ STATEfile }}:
+{% set STATE_file_minion_id = sls ~ '_' ~ SUBJ %}
+{{ STATE_file_minion_id }}:
   file.managed:
     - require:
-      - pkg: {{ STATEpkg }}
+      - pkg: {{ STATE_pkg_minion }}
     - name: {{ SUBJ }}
     - contents:
       - {{ grains.id }}
 
 {% set SUBJ = 'salt-minion' %}
-{% set STATEservice = service-{{ sls }}-{{ SUBJ }} %}
-{{ STATEservice }}:
+{% set STATE_service_minion = sls ~ '_' ~ SUBJ %}
+{{ STATE_service_minion }}:
   service.running:
     - require:
-      - pkg: {{ STATEpkg }}
+      - pkg: {{ STATE_pkg_minion }}
     - watch:
-      - file: {{ STATEfile }}
+      - file: {{ STATE_file_minion_id }}
     - name: {{ SUBJ }}
     - enable: true
     - restart: true
 
 {% set SUBJ = '/etc/systemd/system/salt-minion.service.d/override.conf' %}
-{% set STATEfile = file-{{ sls }}-{{ SUBJ }} %}
-{{ STATEfile }}:
+{% set STATE_file_override = sls ~ '_' ~ SUBJ %}
+{{ STATE_file_override }}:
   file.managed:
+    - require:
+      - pkg: {{ STATE_pkg_minion }}
     - name: {{ SUBJ }}
     - source: salt://{{ slspath }}/override.conf
     - makedirs: true
 
 {% set SUBJ = 'systemctl daemon-reload' %}
-{% set STATEcmd = cmd-{{ sls }}-{{ SUBJ }} %}
-{{ STATEcmd }}:
+{% set STATE_cmd_daemonreload = sls ~ '_' ~ SUBJ %}
+{{ STATE_cmd_daemonreload }}:
   cmd.run:
     - onchanges:
-      - file: {{ STATEfile }}
+      - file: {{ STATE_file_override }}
     - name: {{ SUBJ }}
