@@ -10,7 +10,7 @@ zabbix-repo-pkg:
 qwerty:
   pkg.installed:
     - sources:
-      - salt-py3-repo: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el8.noarch.rpm
+      - {{ SUBJ }}: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el8.noarch.rpm
 
 
 # {% set SUBJ = 'salt-py3-repo' %}
