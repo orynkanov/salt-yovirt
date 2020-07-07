@@ -5,7 +5,8 @@
     - sources:
       {% if grains['osmajorrelease'] == '7' %}
       - {{ SUBJ }}: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm
-      {% elif grains['osmajorrelease'] == '8' %}
+      {% endif %}
+      {% if grains['osmajorrelease'] == '8' %}
       - {{ SUBJ }}: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el8.noarch.rpm
       {% endif %}
 
