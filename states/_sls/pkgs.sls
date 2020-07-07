@@ -1,6 +1,6 @@
 {% set SUBJ = ['mc', 'bash-completion', 'htop', 'screen'] %}
-{% set STATE_pkg = pkg-{{ sls }}-{{ SUBJ | join(',') }} %}
-{{ STATE_pkg }}:
+{% set STATEpkg = pkg-{{ sls }}-{{ SUBJ | join(',') }} %}
+{{ STATEpkg }}:
   pkg.installed:
     - pkgs:
       {% for PKG in SUBJ %}

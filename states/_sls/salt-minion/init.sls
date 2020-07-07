@@ -1,6 +1,6 @@
 {% set SUBJ = 'salt-py3-repo' %}
-{% set STATE_pkg = pkg-{{ sls }}-{{ SUBJ }} %}
-{{ STATE_pkg }}:
+{% set STATEpkg = pkg-{{ sls }}-{{ SUBJ }} %}
+{{ STATEpkg }}:
   pkg.installed:
     - sources:
       {% if grains['osmajorrelease'] == '7' %}
@@ -10,48 +10,48 @@
       {% endif %}
 
 {% set SUBJ = 'salt-minion' %}
-{% set STATE_pkg = pkg-{{ sls }}-{{ SUBJ }} %}
-{{ STATE_pkg }}:
+{% set STATEpkg = pkg-{{ sls }}-{{ SUBJ }} %}
+{{ STATEpkg }}:
   pkg.installed:
     - require:
-      - pkg: {{ STATE_pkg }}
+      - pkg: {{ STATEpkg }}
     - pkgs:
       - {{ SUBJ }}
 
 {% set SUBJ = '/etc/salt/minion_id' %}
-{% set STATE_file = file-{{ sls }}-{{ SUBJ }} %}
-{{ STATE_file }}:
+{% set STATEfile = file-{{ sls }}-{{ SUBJ }} %}
+{{ STATEfile }}:
   file.managed:
     - require:
-      - pkg: {{ STATE_pkg }}
+      - pkg: {{ STATEpkg }}
     - name: {{ SUBJ }}
     - contents:
       - {{ grains.id }}
 
 {% set SUBJ = 'salt-minion' %}
-{% set STATE_service = service-{{ sls }}-{{ SUBJ }} %}
-{{ STATE_service }}:
+{% set STATEservice = service-{{ sls }}-{{ SUBJ }} %}
+{{ STATEservice }}:
   service.running:
     - require:
-      - pkg: {{ STATE_pkg }}
+      - pkg: {{ STATEpkg }}
     - watch:
-      - file: {{ STATE_file }}
+      - file: {{ STATEfile }}
     - name: {{ SUBJ }}
     - enable: true
     - restart: true
 
 {% set SUBJ = '/etc/systemd/system/salt-minion.service.d/override.conf' %}
-{% set STATE_file = file-{{ sls }}-{{ SUBJ }} %}
-{{ STATE_file }}:
+{% set STATEfile = file-{{ sls }}-{{ SUBJ }} %}
+{{ STATEfile }}:
   file.managed:
     - name: {{ SUBJ }}
     - source: salt://{{ slspath }}/override.conf
     - makedirs: true
 
 {% set SUBJ = 'systemctl daemon-reload' %}
-{% set STATE_cmd = cmd-{{ sls }}-{{ SUBJ }} %}
-{{ STATE_cmd }}:
+{% set STATEcmd = cmd-{{ sls }}-{{ SUBJ }} %}
+{{ STATEcmd }}:
   cmd.run:
     - onchanges:
-      - file: {{ STATE_file }}
+      - file: {{ STATEfile }}
     - name: {{ SUBJ }}
