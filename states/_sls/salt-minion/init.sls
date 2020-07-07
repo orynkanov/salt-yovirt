@@ -1,7 +1,7 @@
 {% set SUBJ = 'salt-py3-repo' %}
-# {% set STATE_pkg_repo = 'pkg_' + sls + '_' + SUBJ %}
+{% set STATE_pkg_repo = 'pkg_' + sls + '_' + SUBJ %}
 # {{ STATE_pkg_repo }}:
-pkg_{{ sls }}_{{ SUBJ }}:
+qqqq:
   pkg.installed:
     - sources:
       {% if grains['osmajorrelease'] == '7' %}
