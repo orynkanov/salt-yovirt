@@ -13,4 +13,6 @@
 {{ STATE_pkg_pkgs }}:
   pkg.installed:
     - pkgs:
-      - {{ SUBJ }}
+      {% for PKG in SUBJ %}
+      - {{ PKG }}
+      {% endfor %}
