@@ -3,12 +3,12 @@
 {{ STATE_pkg_repo }}:
   pkg.installed:
     - sources:
-      {% if grains['osmajorrelease'] == '7' %}
+      # {% if grains['osmajorrelease'] == '7' %}
       - salt-py3-repo: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm
-      {% endif %}
-      {% if grains['osmajorrelease'] == '8' %}
-      - salt-py3-repo: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el8.noarch.rpm
-      {% endif %}
+      # {% endif %}
+      # {% if grains['osmajorrelease'] == '8' %}
+      # - salt-py3-repo: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el8.noarch.rpm
+      # {% endif %}
 
 {% set SUBJ = 'salt-minion' %}
 {% set STATE_pkg_minion = 'pkg' ~ sls ~ '_' ~ SUBJ %}
