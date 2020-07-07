@@ -1,10 +1,3 @@
-
-zabbix-repo-pkg:
-  pkg.installed:
-    - sources:
-      # - zabbix-release: salt://{{slspath}}/zabbix-release-4.2-2.el7.noarch.rpm
-      - zabbix-release: https://repo.zabbix.com/zabbix/5.0/rhel/8/x86_64/zabbix-release-5.0-1.el8.noarch.rpm
-
 {% set SUBJ = 'salt-py3-repo' %}
 {% set STATE_pkg_repo = 'pkg' ~ sls ~ '_' ~ SUBJ %}
 {{ STATE_pkg_repo }}:
