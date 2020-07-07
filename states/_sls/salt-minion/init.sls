@@ -4,10 +4,10 @@
   pkg.installed:
     - name: {{ STATE_pkg_repo }}
     - sources:
-      {% if grains['osmajorrelease'] == '7' %}
+      {% if grains['osmajorrelease'] == 7 %}
       - salt-py3-repo: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm
       {% endif %}
-      {% if grains['osmajorrelease'] == '8' %}
+      {% if grains['osmajorrelease'] == 8 %}
       - salt-py3-repo: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el8.noarch.rpm
       {% endif %}
 
