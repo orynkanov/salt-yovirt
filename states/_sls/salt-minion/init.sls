@@ -3,21 +3,13 @@
 {{ STATE_pkg_repo }}:
   pkg.installed:
     - sources:
+      {% if grains['osmajorrelease'] == '7' %}
+      - {{ SUBJ }}: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm
+      {% endif %}
+      {% if grains['osmajorrelease'] == '8' %}
       - {{ SUBJ }}: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el8.noarch.rpm
+      {% endif %}
 
-
-# {% set SUBJ = 'salt-py3-repo' %}
-# {% set STATE_pkg_repo = 'pkg' ~ sls ~ '_' ~ SUBJ %}
-# {{ STATE_pkg_repo }}:
-#   pkg.installed:
-#     - sources:
-#       {% if grains['osmajorrelease'] == '7' %}
-#       - {{ SUBJ }}: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm
-#       {% endif %}
-#       {% if grains['osmajorrelease'] == '8' %}
-#       - {{ SUBJ }}: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el8.noarch.rpm
-#       {% endif %}
-{#
 {% set SUBJ = 'salt-minion' %}
 {% set STATE_pkg_minion = 'pkg' ~ sls ~ '_' ~ SUBJ %}
 {{ STATE_pkg_minion }}:
@@ -66,5 +58,3 @@
     - onchanges:
       - file: {{ STATE_file_override }}
     - name: {{ SUBJ }}
-#}
-
