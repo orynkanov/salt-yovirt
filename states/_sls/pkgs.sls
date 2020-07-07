@@ -9,7 +9,7 @@
       {% endfor %}
 #}
 {% set SUBJ = ['mc', 'bash-completion', 'htop', 'screen'] %}
-{% set STATE_pkg_pkgs = 'pkg_' ~ sls ~ '_' ~ SUBJ | join(',') %}
+{% set STATE_pkg_pkgs = 'pkg_' ~ sls ~ '_' ~ SUBJ %}
 {{ STATE_pkg_pkgs }}:
   pkg.installed:
     - pkgs:
