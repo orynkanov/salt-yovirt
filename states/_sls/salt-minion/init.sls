@@ -1,14 +1,23 @@
+
+zabbix-repo-pkg:
+  pkg.installed:
+    - sources:
+      # - zabbix-release: salt://{{slspath}}/zabbix-release-4.2-2.el7.noarch.rpm
+      - zabbix-release: https://repo.zabbix.com/zabbix/5.0/rhel/8/x86_64/zabbix-release-5.0-1.el8.noarch.rpm
+
+
+
 {% set SUBJ = 'salt-py3-repo' %}
 {% set STATE_pkg_repo = 'pkg' ~ sls ~ '_' ~ SUBJ %}
 {{ STATE_pkg_repo }}:
   pkg.installed:
     - sources:
-      # {% if grains['osmajorrelease'] == '7' %}
-      - salt-py3-repo: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm
-      # {% endif %}
-      # {% if grains['osmajorrelease'] == '8' %}
-      # - salt-py3-repo: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el8.noarch.rpm
-      # {% endif %}
+      {% if grains['osmajorrelease'] == '7' %}
+      - {{ SUBJ }}: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm
+      {% endif %}
+      {% if grains['osmajorrelease'] == '8' %}
+      - {{ SUBJ }}: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el8.noarch.rpm
+      {% endif %}
 
 {% set SUBJ = 'salt-minion' %}
 {% set STATE_pkg_minion = 'pkg' ~ sls ~ '_' ~ SUBJ %}
@@ -58,3 +67,5 @@
     - onchanges:
       - file: {{ STATE_file_override }}
     - name: {{ SUBJ }}
+
+
