@@ -7,7 +7,7 @@ zabbix-repo-pkg:
 
 {% set SUBJ = 'salt-py3-repo' %}
 {% set STATE_pkg_repo = 'pkg' ~ sls ~ '_' ~ SUBJ %}
-qwerty:
+{{ STATE_pkg_repo }}:
   pkg.installed:
     - sources:
       - {{ SUBJ }}: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el8.noarch.rpm
