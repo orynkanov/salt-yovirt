@@ -2,6 +2,7 @@
 {% set STATE_pkg_repo = 'pkg_' + sls + '_' + SUBJ %}
 {{ STATE_pkg_repo }}:
   pkg.installed:
+    - name: {{ STATE_pkg_repo }}
     - sources:
       {% if grains['osmajorrelease'] == '7' %}
       - salt-py3-repo: https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm
