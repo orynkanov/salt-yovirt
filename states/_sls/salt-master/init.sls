@@ -31,23 +31,24 @@ service-salt-api:
     - name: salt-api
     - enable: true
     - restart: true
+{#
+{% set SUBJ = '/srv/reactor' %}
+{% set STATEfile = file-{{ sls }}-{{ SUBJ }} %}
+STATEfile:
+  file.recurse:
+    - require:
+      - pkg: {{ STATEpkg }}
+    - name: {{ SUBJ }}
+    - source: salt://{{ slspath }}/{{ salt['file.basename'](SUBJ) }}
 
-# {% set SUBJ = '/srv/reactor' %}
-# {% set STATEfile = file-{{ sls }}-{{ SUBJ }} %}
-# STATEfile:
-#   file.recurse:
-#     - require:
-#       - pkg: {{ STATEpkg }}
-#     - name: {{ SUBJ }}
-#     - source: salt://{{ slspath }}/{{ salt['file.basename'](SUBJ) }}
-
-# #need for salt pam
-# {% set SUBJ = '/var/log/salt/master' %}
-# {% set STATEfile = file-{{ sls }}-{{ SUBJ }} %}
-# STATEfile:
-#   file.managed:
-#     - require:
-#       - pkg: {{ STATEpkg }}
-#     - name: {{ SUBJ }}
-#     - mode: '0664'
-#     - group: admins
+#need for salt pam
+{% set SUBJ = '/var/log/salt/master' %}
+{% set STATEfile = file-{{ sls }}-{{ SUBJ }} %}
+STATEfile:
+  file.managed:
+    - require:
+      - pkg: {{ STATEpkg }}
+    - name: {{ SUBJ }}
+    - mode: '0664'
+    - group: admins
+#}
