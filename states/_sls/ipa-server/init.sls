@@ -1,9 +1,4 @@
-cmd-dnf-module-idm-DL1:
+cmd-dnf-module-idm-DL1-profile-dns:
   cmd.run:
-    - name: dnf module enable idm:DL1 -y
-
-pkg-freeipa-server-dns:
-  pkg.installed:
-    - pkgs:
-      - ipa-server
-      - ipa-server-dns
+    - name: dnf module install idm:DL1/dns -y
+    - unless: rpm -q ipa-server-dns
