@@ -1,6 +1,6 @@
 {% if grains.os == 'CentOS' and grains.osmajorrelease == 7 %}
     {% set SALTREPO = 'https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm' %}
-{% if grains.os == 'CentOS' and grains.osmajorrelease == 8 %}
+{% elif grains.os == 'CentOS' and grains.osmajorrelease == 8 %}
     {% set SALTREPO = 'https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el8.noarch.rpm' %}
 {% endif %}
 
