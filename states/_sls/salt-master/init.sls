@@ -1,42 +1,34 @@
-{% set SUBJ = ['salt-master', 'salt-ssh', 'salt-api'] %}
-{% set STATEpkg = pkg-{{ sls }}-{{ SUBJ | join(',') }} %}
-{{ STATEpkg }}:
+pkg-salt-master:
   pkg.installed:
     - pkgs:
-      {% for PKG in SUBJ %}
-      - {{ PKG }}
-      {% endfor %}
+      - salt-master
+      - salt-ssh
+      - salt-api
 
-{% set SUBJ = '/etc/salt/master.d' %}
-{% set STATEfile = file-{{ sls }}-{{ SUBJ }} %}
-{{ STATEfile }}:
+file-master.d:
   file.recurse:
     - require:
-      - pkg: {{ STATEpkg }}
-    - name: {{ SUBJ }}
-    - source: salt://{{ slspath }}/{{ salt['file.basename'](SUBJ) }}
+      - pkg: pkg-salt-master
+    - name: /etc/salt/master.d
+    - source: salt://{{ slspath }}/master.d
 
-{% set SUBJ = 'salt-master' %}
-{% set STATEservice = service-{{ sls }}-{{ SUBJ }} %}
-{{ STATEservice }}:
+service-salt-master:
   service.running:
     - require:
-      - pkg: {{ STATEpkg }}
+      - pkg: pkg-salt-master
     - watch:
-      - file: {{ STATEfile }}
-    - name: {{ SUBJ }}
+      - file: file-master.d
+    - name: salt-master
     - enable: true
     - restart: true
 
-{% set SUBJ = 'salt-api' %}
-{% set STATEservice = service-{{ sls }}-{{ SUBJ }} %}
-{{ STATEservice }}:
+service-salt-api:
   service.running:
     - require:
-      - pkg: {{ STATEpkg }}
+      - pkg: pkg-salt-master
     - watch:
-      - file: {{ STATEfile }}
-    - name: {{ SUBJ }}
+      - file: file-master.d
+    - name: salt-api
     - enable: true
     - restart: true
 
