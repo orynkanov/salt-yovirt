@@ -4,7 +4,7 @@ cmd-dnf-module-idm-DL1-profile-dns:
     - unless: rpm -q ipa-server-dns
 
 git-ipa-server-installer:
-  git.cloned:
+  git.latest:
     - require:
       - cmd: cmd-dnf-module-idm-DL1-profile-dns
     - name: https://github.com/orynkanov/ipa-server-installer.git
