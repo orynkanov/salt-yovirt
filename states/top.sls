@@ -8,8 +8,11 @@ base:
 {#
     - _sls/sysctl/tcp_timestamps
     - _sls/zabbix-agent
+#}
   'os:CentOS':
     - match: grain
+    - _cfg/firewalld
+{#
     - _sls/epel
     - _sls/ovirt-guest-agent
     - _sls/ipa-client
