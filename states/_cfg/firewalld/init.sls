@@ -3,8 +3,10 @@ file-firewalld.conf:
     - name: /etc/firewalld/firewalld.conf
     - source: salt://{{ slspath }}/firewalld.conf.centos{{ grains.osmajorrelease }}
 
-cmd-firewalld-reload:
-  cmd.run:
-    - onchanges:
+service-firewalld:
+  service.running:
+    - watch:
       - file: file-firewalld.conf
-    - name: firewall-cmd --reload
+    - name: firewalld
+    - enable: true
+    - restart: true
