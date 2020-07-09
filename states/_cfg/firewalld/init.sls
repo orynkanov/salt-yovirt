@@ -1,7 +1,7 @@
 file-firewalld.conf:
   file.managed:
     - name: /etc/firewalld/firewalld.conf
-    - source: salt://{{ slspath }}/firewalld.conf.{{ grains.osmajorrelease }}
+    - source: salt://{{ slspath }}/firewalld.conf.centos{{ grains.osmajorrelease }}
 
 cmd-firewalld-reload:
   cmd.run:
