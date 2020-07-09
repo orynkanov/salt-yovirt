@@ -8,4 +8,4 @@ git-ipa-server-installer:
     - require:
       - cmd: cmd-dnf-module-idm-DL1-profile-dns
     - name: https://github.com/orynkanov/ipa-server-installer.git
-    - target: /opt
+    - target: /opt/ipa-server-installer
