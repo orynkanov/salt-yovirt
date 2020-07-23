@@ -15,17 +15,6 @@ pkg-pwgen:
     - pkgs:
       - pwgen
 
-{% if grains['host'] == 'ipa01' %}
-{% if not salt['file.file_exists']('/etc/sssd/sssd.conf') %}
-cmd-ipa-server-installer:
-  cmd.run:
-    - require:
-      - git: git-ipa-server-installer
-      - pkg: pkg-pwgen
-    - name: /opt/ipa-server-installer/ipa-server-installer.sh
-{% endif %}
-{% endif %}
-
 firewalld-ipa-server:
   firewalld.present:
     - name: public
