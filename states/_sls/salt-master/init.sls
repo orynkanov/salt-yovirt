@@ -31,6 +31,13 @@ service-salt-api:
     - name: salt-api
     - enable: true
     - restart: true
+
+firewalld-salt-master:
+  firewalld.present:
+    - name: public
+    - services:
+      - salt-master
+
 {#
 {% set SUBJ = '/srv/reactor' %}
 {% set STATEfile = file-{{ sls }}-{{ SUBJ }} %}
