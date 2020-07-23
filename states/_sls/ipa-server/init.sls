@@ -15,7 +15,7 @@ pkg-pwgen:
     - pkgs:
       - pwgen
 
-{% if grains['host'] == 'ipa01' and  %}
+{% if grains['host'] == 'ipa01' %}
 {% if not salt['file.file_exists']('/etc/sssd/sssd.conf') %}
 cmd-ipa-server-installer:
   cmd.run:
