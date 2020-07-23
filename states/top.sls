@@ -1,4 +1,4 @@
-{% set SRVBASE = grains.id | regex_replace('\d{2}$', '') %}
+{% set SRVBASE = grains['id'] | regex_replace('\d{2}$', '') %}
 
 base:
   '*':
