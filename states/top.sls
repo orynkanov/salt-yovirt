@@ -12,6 +12,7 @@ base:
   'os:CentOS':
     - match: grain
     - _cfg/firewalld
+    - _sls/ipa-client
 {#
     - _sls/epel
     - _sls/ovirt-guest-agent

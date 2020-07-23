@@ -1,4 +1,4 @@
-{{ sls }}-pkg:
+pkg-pkgs:
   pkg.installed:
     - pkgs:
       - mc
